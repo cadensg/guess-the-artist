@@ -11,27 +11,19 @@ song_data = [
     ("Smells Like Teen Spirit", "Nirvana"),
     ("Uptown Funk", "Mark Ronson"),
     ("Someone Like You", "Adele"),
-    ("Hey Jude", "The Beatles")
-    ("Take a Walk", "Passion Pit")
-    ("Electric Feel", "MGMT")
-    ("Sweet Disposition", "The Temper Trap")
-    ("Holocene", "Bon Iver")
-    ("The Less I Know the Better", "Tame Impala")
-    ("Sedona", "Houndmouth")
+    ("Hey Jude", "The Beatles"),
+    ("Take a Walk", "Passion Pit"),
+    ("Electric Feel", "MGMT"),
+    ("Sweet Disposition", "The Temper Trap"),
+    ("Holocene", "Bon Iver"),
+    ("The Less I Know the Better", "Tame Impala"),
+    ("Sedona", "Houndmouth"),
     ("Tennessee Whiskey", "Chris Stapleton"),
-    ("Starting Over", "Chris Stapleton"),
-    ("Fire Away", "Chris Stapleton"),
     ("Broken Halos", "Chris Stapleton"),
     ("Feathered Indians", "Tyler Childers"),
-    ("Lady May", "Tyler Childers"),
-    ("Whitehouse Road", "Tyler Childers"),
-    ("Shake the Frost", "Tyler Childers"),
     ("All Your'n", "Tyler Childers"),
     ("Something in the Orange", "Zach Bryan"),
-    ("Revival", "Zach Bryan"),
-    ("Heading South", "Zach Bryan"),
     ("Burn, Burn, Burn", "Zach Bryan"),
-    ("Sun to Me", "Zach Bryan"),
 ]
 
 class GuessTheArtistGame:
