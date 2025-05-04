@@ -1,7 +1,5 @@
-from flask import Flask, render_template_string, request
+import tkinter as tk
 import random
-
-app = Flask(__name__)
 
 # Sample song database
 song_data = [
@@ -17,39 +15,62 @@ song_data = [
     ("Hey Jude", "The Beatles")
 ]
 
-@app.route("/", methods=["GET", "POST"])
-def game():
-    if request.method == "POST":
-        guess = request.form["guess"]
-        correct = request.form["correct"]
-        if guess == correct:
-            result = "✅ Correct!"
+class GuessTheArtistGame:
+    def __init__(self, master):
+        self.master = master
+        master.title("🎵 Guess the Artist")
+
+        self.score = 0
+        self.song_label = tk.Label(master, text="", font=("Arial", 16))
+        self.song_label.pack(pady=20)
+
+        self.buttons = []
+        for _ in range(4):
+            btn = tk.Button(master, text="", font=("Arial", 14), width=30, command=lambda b=_: self.check_answer(b))
+            btn.pack(pady=5)
+            self.buttons.append(btn)
+
+        self.result_label = tk.Label(master, text="", font=("Arial", 14))
+        self.result_label.pack(pady=10)
+
+        self.score_label = tk.Label(master, text="Score: 0", font=("Arial", 12))
+        self.score_label.pack(pady=10)
+
+        self.next_button = tk.Button(master, text="Next", font=("Arial", 12), command=self.load_question)
+        self.next_button.pack(pady=10)
+
+        self.load_question()
+
+    def load_question(self):
+        self.result_label.config(text="")
+        self.song, self.correct_artist = random.choice(song_data)
+        self.song_label.config(text=f"🎶 Who sang '{self.song}'?")
+        
+        choices = {self.correct_artist}
+        while len(choices) < 4:
+            _, artist = random.choice(song_data)
+            choices.add(artist)
+        choices = list(choices)
+        random.shuffle(choices)
+
+        for i, btn in enumerate(self.buttons):
+            btn.config(text=choices[i], state=tk.NORMAL)
+
+    def check_answer(self, button_index):
+        selected = self.buttons[button_index].cget("text")
+        if selected == self.correct_artist:
+            self.result_label.config(text="✅ Correct!", fg="green")
+            self.score += 1
         else:
-            result = f"❌ Wrong! The correct artist was: {correct}"
-    else:
-        result = ""
+            self.result_label.config(text=f"❌ Wrong! It was {self.correct_artist}", fg="red")
+        
+        self.score_label.config(text=f"Score: {self.score}")
 
-    song, correct_artist = random.choice(song_data)
+        for btn in self.buttons:
+            btn.config(state=tk.DISABLED)
 
-    # Generate multiple choices
-    choices = {correct_artist}
-    while len(choices) < 4:
-        _, other_artist = random.choice(song_data)
-        choices.add(other_artist)
-    choices = list(choices)
-    random.shuffle(choices)
-
-    return render_template_string('''
-        <h1>🎵 Guess the Artist</h1>
-        <p>Which artist sang the song: <b>{{ song }}</b>?</p>
-        <form method="post">
-            <input type="hidden" name="correct" value="{{ correct_artist }}">
-            {% for choice in choices %}
-                <button type="submit" name="guess" value="{{ choice }}">{{ choice }}</button><br><br>
-            {% endfor %}
-        </form>
-        <p>{{ result }}</p>
-    ''', song=song, correct_artist=correct_artist, choices=choices, result=result)
-
+# Run the app
 if __name__ == "__main__":
-    app.run(debug=True)
+    root = tk.Tk()
+    app = GuessTheArtistGame(root)
+    root.mainloop()
