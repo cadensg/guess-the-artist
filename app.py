@@ -2,12 +2,13 @@ from flask import Flask, request, render_template_string
 import random
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+import os
 
 app = Flask(__name__)
 
 # Spotify API credentials (store safely in production!)
-CLIENT_ID = 'your_spotify_client_id'
-CLIENT_SECRET = 'your_spotify_client_secret'
+CLIENT_ID = os.getenv('SPOTIPY_CLIENT_ID')
+CLIENT_SECRET = os.getenv('SPOTIPY_CLIENT_SECRET')
 auth_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 sp = spotipy.Spotify(auth_manager=auth_manager)
 
